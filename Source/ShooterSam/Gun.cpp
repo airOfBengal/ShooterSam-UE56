@@ -14,6 +14,9 @@ AGun::AGun()
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh Comp"));
 	Mesh->SetupAttachment(SceneRoot);
+
+	MuzzleFlashComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Muzzle Flash"));
+	MuzzleFlashComponent->SetupAttachment(Mesh);
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +24,7 @@ void AGun::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	MuzzleFlashComponent->Deactivate();
 }
 
 // Called every frame
@@ -32,6 +36,8 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::PullTrigger()
 {
+	MuzzleFlashComponent->Activate(true);
+
 	if (OwnerController)
 	{
 		FVector ViewPointLocation;
@@ -50,7 +56,8 @@ void AGun::PullTrigger()
 
 		if (IsHit)
 		{
-			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 5.0f, 16, FColor::Red, true);
+			//DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 5.0f, 16, FColor::Red, true);
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactParticle, HitResult.ImpactPoint, HitResult.ImpactPoint.Rotation());
 		}
 	}
 }
