@@ -8,6 +8,8 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+
 #include "Gun.generated.h"
 
 UCLASS()
@@ -41,6 +43,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	UNiagaraSystem* ImpactParticle;
+
+	UPROPERTY(EditAnywhere)
+	float BulletDamage = 5.0f;
 
 	void PullTrigger();
 

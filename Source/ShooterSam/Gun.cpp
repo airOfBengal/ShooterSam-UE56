@@ -58,6 +58,12 @@ void AGun::PullTrigger()
 		{
 			//DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 5.0f, 16, FColor::Red, true);
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactParticle, HitResult.ImpactPoint, HitResult.ImpactPoint.Rotation());
+
+			AActor* HitActor = HitResult.GetActor();
+			if (HitActor)
+			{
+				UGameplayStatics::ApplyDamage(HitActor, BulletDamage, OwnerController, this, UDamageType::StaticClass());
+			}
 		}
 	}
 }
