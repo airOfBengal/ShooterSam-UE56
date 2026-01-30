@@ -31,6 +31,12 @@ void AShooterSamPlayerController::BeginPlay()
 		}
 
 	}
+
+	HUDWidget = CreateWidget<UHUDWidget>(this, HUDWidgetClass);
+	if (HUDWidget)
+	{
+		HUDWidget->AddToPlayerScreen();
+	}
 }
 
 void AShooterSamPlayerController::SetupInputComponent()
