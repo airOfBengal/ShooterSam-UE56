@@ -20,9 +20,8 @@ void AShooterSamGameMode::BeginPlay()
 	TArray<AActor*> ShooterAIActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AShooterAI::StaticClass(), ShooterAIActors);
 
-	for (int i = 0;i < ShooterAIActors.Num();i++)
+	for (AActor* ShooterAIActor : ShooterAIActors)
 	{
-		AActor* ShooterAIActor = ShooterAIActors[i];
 		AShooterAI* ShooterAI = Cast<AShooterAI>(ShooterAIActor);
 		if (ShooterAI)
 		{
