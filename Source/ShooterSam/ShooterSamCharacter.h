@@ -114,6 +114,7 @@ public:
 	bool IsAlive = true;
 
 	AGun* Gun;
+	void UpdateHUD();
 
 	UFUNCTION()
 	void OnDamageTaken(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);

@@ -12,6 +12,8 @@
 #include "InputActionValue.h"
 #include "ShooterSam.h"
 
+#include "ShooterSamPlayerController.h"
+
 AShooterSamCharacter::AShooterSamCharacter()
 {
 	// Set size for collision capsule
@@ -56,6 +58,7 @@ void AShooterSamCharacter::BeginPlay()
 
 	OnTakeAnyDamage.AddDynamic(this, &AShooterSamCharacter::OnDamageTaken);
 	Health = MaxHealth;
+	UpdateHUD();
 
 	GetMesh()->HideBoneByName("weapon_r", EPhysBodyOp::PBO_None);
 
@@ -158,11 +161,23 @@ void AShooterSamCharacter::Shoot()
 	if (Gun) Gun->PullTrigger();
 }
 
+void AShooterSamCharacter::UpdateHUD()
+{
+	AShooterSamPlayerController* PlayerController = Cast<AShooterSamPlayerController>(GetController());
+	if (PlayerController)
+	{
+		float NewHealth = Health / MaxHealth;
+		if (NewHealth < 0.0f) NewHealth = 0.0f;
+		PlayerController->HUDWidget->UpdateHealthPercent(NewHealth);
+	}
+}
+
 void AShooterSamCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
 	if (IsAlive)
 	{
 		Health -= Damage;
+		UpdateHUD();
 		if (Health <= 0.0f)
 		{
 			IsAlive = false;
