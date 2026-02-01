@@ -169,6 +169,7 @@ void AShooterSamCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, con
 			Health = 0.0f;
 
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			DetachFromControllerPendingDestroy();
 		}
 	}
 }
